@@ -1,40 +1,71 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import UserData from './UserData.json'
+import { useNavigation } from '@react-navigation/native';
 const LoginScreen = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-
+  const [display, setDisplay] = useState(false);
+  //const navigation = useNavigation();
   const handleLogin = () => {
-    // Implement your login logic here
-    console.log('Username:', username);
-    console.log('Password:', password);
-    // Example: You might want to call an authentication function
+    UserData.map(item=>{
+      console.warn(item.username)
+      if(item.username===username && item.password===password){
+       // console.warn("login successfull")
+       // navigation.navigate('Home');
+      }else{
+        console.warn("Login Failed !")
+      }
+    })
+    setDisplay(true);
+  };
+
+  const handleClearState = () => {
+    setUsername('');
+    setPassword('');
+    setDisplay(false);
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.logo}>MyApp</Text>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="Username"
-          placeholderTextColor="black"
-          onChangeText={text => setUsername(text)}
-        />
+    <View>
+      {display && (
+        <View style={styles.userInfo}>
+          <Text style={{ color: 'green', fontSize: 16, }}>LoggedIn user: {username}</Text>
+        </View>
+      )}
+      <View style={styles.container}>
+
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.inputText}
+            placeholder="Username"
+            placeholderTextColor="black"
+            onChangeText={text => setUsername(text)}
+            value={username}
+          />
+        </View>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.inputText}
+            placeholder="Password"
+            placeholderTextColor="black"
+            secureTextEntry={true}
+            onChangeText={text => setPassword(text)}
+            value={password}
+          />
+        </View>
+        <View style={styles.buttonView}>
+          <Button onPress={handleLogin} title="Login" />
+        </View>
+
+        {display && (
+          <View style={styles.buttonView}>
+            <Button onPress={handleClearState} title="LogOut" />
+          </View>
+        )}
+
+
       </View>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="Password"
-          placeholderTextColor="black"
-          secureTextEntry={true}
-          onChangeText={text => setPassword(text)}
-        />
-      </View>
-      <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-        <Text style={styles.loginText}>LOGIN</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -42,16 +73,11 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'pink',
+    //backgroundColor: 'pink',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop:120
-  },
-  logo: {
-    fontWeight: 'bold',
-    fontSize: 50,
-    color: '#ffffff',
-    marginBottom: 40,
+    paddingTop: 50,
+    marginTop: 100
   },
   inputView: {
     width: '80%',
@@ -60,24 +86,44 @@ const styles = StyleSheet.create({
     height: 50,
     marginBottom: 20,
     justifyContent: 'center',
-    padding: 20,
+    paddingHorizontal: 20,
+    borderBottomColor: 'red',
+  },
+  buttonView: {
+    width: '80%',
+    backgroundColor: 'yellow',
+    borderRadius: 25,
+
+    height: 50,
+    marginBottom: 20,
+    justifyContent: 'center',
+  },
+  userInfo: {
+    marginTop: 30,
+    alignItems: 'center',
+    color: 'black',
+    alignItems: 'center',
+    fontWeight: '600'
+  },
+  userInfoText: {
+    fontSize: 25,
+    color: 'green',
+
+
+
   },
   inputText: {
     height: 50,
     color: 'black',
-  },
-  loginBtn: {
-    width: '80%',
-    backgroundColor: '#FF6347',
     borderRadius: 25,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 30,
   },
-  loginText: {
-    color: 'white',
+  title: {
+    fontSize: 50,
+    color: 'black',
     fontWeight: 'bold',
+    marginTop: 560,
+    textAlign: 'center'
+
   },
 });
 
