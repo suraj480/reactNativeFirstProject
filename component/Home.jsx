@@ -1,9 +1,31 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet, SectionList } from 'react-native';
+import React,{useEffect,useState} from 'react';
+import { View, Text, FlatList, StyleSheet, SectionList, Button } from 'react-native';
 
 const Home = ({ route }) => {
+  const [formula,setFormula]=useState('')
+  const [chemical,setChemical]=useState('')
   const { userData } = route.params;
+ //1.without dependecy
+  useEffect(()=>{
+    console.warn("state chaged")
+  }) 
 
+  //2.with dependency array 
+  useEffect(()=>{
+    console.warn("i am mounted")
+  },[])
+  
+  //3.with dependency array + dependent
+  useEffect(()=>{
+    console.warn("i am mounted and dependecy changed")
+  },[chemical]) 
+
+  //4.component unMount  
+  useEffect(()=>{
+     return()=>{  
+    // write here whatever you want to just before unmounting
+    console.warn("i called before unmounting")
+   } },[])
   // Sample list of names (can be replaced with data from userData)
   const names = ['Alice', 'Bob', 'Charlie', 'David', 'Eve'];
   const data = [
@@ -31,22 +53,23 @@ const Home = ({ route }) => {
       <Text>{item}</Text>
     </View>
   );
-
+  const handlePress=()=>{
+    setFormula('a+b')
+  }
+  const handleChemical=()=>{
+    setChemical('a+b')
+  }
   return (
     <View style={styles.container}>
-      <Text>Welcome {userData} to Home screen</Text>
-      <FlatList
-        data={names}
-        renderItem={renderItem}
-        keyExtractor={(item, index) => index.toString()}
-      />
-       <SectionList
-        sections={data}
-        keyExtractor={(item, index) => item + index}
-        renderSectionHeader={renderSectionHeader}
-        renderItem={renderItem}
-      />
-    </View>
+    <Text>Welcome {userData} to Home screen</Text>
+    <FlatList
+      data={names}
+      renderItem={renderItem}
+      keyExtractor={(item, index) => index.toString()}
+    />
+    <Button onPress={handlePress} title="Formula" />
+    <Button color="yellow" onPress={handleChemical} title="Chemical" />
+  </View>
   );
 };
 
@@ -56,12 +79,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
+    marginBottom:400
   },
   item: {
-    padding: 10,
+    padding: 1,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
   },
 });
+
 
 export default Home;
