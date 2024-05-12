@@ -2,18 +2,23 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import LoginScreen from './LoginScreen';
 import { registerRootComponent } from 'expo';
-//import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-// import HomeScreen from './component/Home';
-// const Stack = createStackNavigator();
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from '@react-navigation/native';
+import Home from './component/Home';
+const Stack = createStackNavigator()
 
 const App = () => {
+
   return (
-    <View>
-      <Text style={styles.title}>Login Page</Text>
-       <LoginScreen />
-     
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Home" component={Home} />
+
+      </Stack.Navigator>
+
+    </NavigationContainer>
+
   );
 };
 

@@ -6,14 +6,14 @@ const LoginScreen = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [display, setDisplay] = useState(false);
-  //const navigation = useNavigation();
+  const navigation = useNavigation();
   const handleLogin = () => {
-    UserData.map(item=>{
-      console.warn(item.username)
-      if(item.username===username && item.password===password){
-       // console.warn("login successfull")
-       // navigation.navigate('Home');
-      }else{
+    UserData.map(item => {
+      if (item.username === username && item.password === password) {
+        // console.warn("login successfull")
+        const userData=username
+        navigation.navigate('Home',{userData});
+      } else {
         console.warn("Login Failed !")
       }
     })
@@ -28,6 +28,9 @@ const LoginScreen = () => {
 
   return (
     <View>
+      <View>
+      <Text style={styles.title}>Login Page</Text>
+      </View>
       {display && (
         <View style={styles.userInfo}>
           <Text style={{ color: 'green', fontSize: 16, }}>LoggedIn user: {username}</Text>
@@ -118,10 +121,10 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   title: {
-    fontSize: 50,
-    color: 'black',
+    fontSize: 30,
+    color: 'orange',
     fontWeight: 'bold',
-    marginTop: 560,
+    marginTop: 100,
     textAlign: 'center'
 
   },
