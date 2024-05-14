@@ -7,24 +7,24 @@ const Home = ({ route }) => {
   const { userData } = route.params;
  //1.without dependecy
   useEffect(()=>{
-    console.warn("state chaged")
+   // console.warn("state chaged")
   }) 
 
   //2.with dependency array 
   useEffect(()=>{
-    console.warn("i am mounted")
+   // console.warn("i am mounted")
   },[])
   
   //3.with dependency array + dependent
   useEffect(()=>{
-    console.warn("i am mounted and dependecy changed")
+    //console.warn("i am mounted and dependecy changed")
   },[chemical]) 
 
   //4.component unMount  
   useEffect(()=>{
      return()=>{  
     // write here whatever you want to just before unmounting
-    console.warn("i called before unmounting")
+   // console.warn("i called before unmounting")
    } },[])
   // Sample list of names (can be replaced with data from userData)
   const names = ['Alice', 'Bob', 'Charlie', 'David', 'Eve'];
